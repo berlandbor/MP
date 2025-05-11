@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Менеджер паролей</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body>
+  <div class="container">
+    <h1>Менеджер паролей</h1>
+    <p>by berlandbor</p>
+
+    <div class="alert" id="alertMessage" style="display: none;"></div>
+
+    <div class="controls">
+      <button id="openAddModalBtn"><i class="fas fa-plus"></i> Добавить</button>
+      <button id="downloadJsonBtn"><i class="fas fa-download"></i> Скачать JSON</button>
+
+      <label for="uploadJsonBtn" class="file-label">
+        <i class="fas fa-upload"></i> Загрузить JSON
+        <input type="file" id="uploadJsonBtn" accept=".json" hidden>
+      </label>
+
+      <label for="uploadCsvBtn" class="file-label">
+        <i class="fas fa-file-csv"></i> Импорт из Chrome CSV
+        <input type="file" id="uploadCsvBtn" accept=".csv" hidden>
+      </label>
+
+      <button id="resetBtn" class="danger"><i class="fas fa-trash"></i> Очистить</button>
+    </div>
+
+    <input type="text" id="searchInput" placeholder="Поиск по сервису...">
+
+    <h2>Список паролей</h2>
+    <div class="scrollable-list">
+      <ul id="passwordList"></ul>
+    </div>
+
+    <div id="storageStatus">
+      <p><strong>Использовано памяти:</strong> <span id="usedSpace">0</span> из 5000 KB</p>
+      <p id="warning" style="color: red;"></p>
+    </div>
+  </div>
+
+  <!-- Модальное окно для просмотра -->
+  <div id="modal" class="modal">
+    <div class="modal-content">
+      <span class="close">&times;</span>
+      <h2 id="modalTitle"></h2>
+      <p id="modalLogin"></p>
+      <p id="modalPassword"></p>
+      <div class="modal-actions">
+        <button id="copyPasswordBtn"><i class="fas fa-copy"></i> Копировать</button>
+        <button id="deleteBtn" class="danger"><i class="fas fa-trash-alt"></i> Удалить</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Модальное окно добавления -->
+  <div id="addModal" class="modal">
+    <div class="modal-content">
+      <span class="closeAddModal">&times;</span>
+      <h2>Добавить пароль</h2>
+      <input id="serviceName" placeholder="Название сервиса" />
+      <input id="login" placeholder="Логин" />
+      <div class="password-field">
+        <input id="password" placeholder="Пароль" type="password" />
+        <i class="fas fa-eye toggle-password"></i>
+      </div>
+      <div class="modal-actions">
+        <button id="generatePasswordBtn"><i class="fas fa-bolt"></i> Генерировать</button>
+        <button id="savePasswordBtn"><i class="fas fa-save"></i> Сохранить</button>
+        <button id="clearBtn"><i class="fas fa-eraser"></i> Очистить</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Авторизация -->
+  <div id="authScreen" class="modal" style="display: flex;">
+    <div class="modal-content">
+      <h2 id="authTitle">Введите мастер-пароль</h2>
+      <input type="password" id="authInput" placeholder="Мастер-пароль" />
+      <button id="authSubmitBtn">Войти</button>
+      <p id="authError" style="color: red;"></p>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      document.querySelectorAll('.toggle-password').forEach(icon => {
+        icon.addEventListener('click', () => {
+          const input = icon.previousElementSibling;
+          input.type = input.type === 'password' ? 'text' : 'password';
+          icon.classList.toggle('fa-eye-slash');
+        });
+      });
+    });
+  </script>
+</body>
+</html>
